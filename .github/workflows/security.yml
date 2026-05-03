@@ -138,8 +138,8 @@ jobs:
         run: |
           pip install pip-audit
           pip-audit -r Unidad_3_Seguridad_en_Aplicaciones_y_Datos/devsecops-lab/app/requirements.txt \  
-                    --format=json \
-                    --output=audit-report.json || true 
+                    --format json \
+                    --output audit-report.json || true 
           echo '--- Reporte de CVEs ---'
           pip-audit -r Unidad_3_Seguridad_en_Aplicaciones_y_Datos/devsecops-lab/app/requirements.txt
         # TODO: instala pip-audit
