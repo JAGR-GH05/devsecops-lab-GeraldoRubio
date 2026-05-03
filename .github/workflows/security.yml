@@ -44,7 +44,7 @@ jobs:
   #   En un pipeline de producción más estricto se quitaría esta opción.
   # ═══════════════════════════════════════════════════════════════════════════
   sast:
-    name: SAST - Semgrep
+    name: 'SAST - Semgrep'
     runs-on: ubuntu-latest
     continue-on-error: true   # falla visible pero no bloquea tests
     timeout-minutes: 10
@@ -76,7 +76,7 @@ jobs:
       #
       # Agrega --error para que el job falle si Semgrep encuentra algo.
       # ¿Qué implicación tiene eso en un pipeline de CI/CD real?
-      - name: Ejecutar análisis SAST
+      - name: Ejecutar analisis SAST
         run: |
           semgrep --config p/python \
                   --config p/owasp-top-ten \
@@ -107,10 +107,9 @@ jobs:
   # CVEs conocidos en los paquetes de requirements.txt.
   # ═══════════════════════════════════════════════════════════════════════════
   sca:
-    name: SCA - pip-audit
+    name: 'SCA - pip-audit'
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - name: Checkout codigo
         uses: actions/checkout@v4
@@ -162,9 +161,9 @@ jobs:
   # mismo pipeline: qué falló en seguridad Y si los tests pasan.
   # ═══════════════════════════════════════════════════════════════════════════
   tests:
-    name: Tests - pytest
+    name: 'Tests - pytest'
     runs-on: ubuntu-latest
-    needs: [ sast, sca ]   # espera a que SAST y SCA terminen primero
+    needs: [sast, sca]   # espera a que SAST y SCA terminen primero
     timeout-minutes: 10
     steps:
       - name: Checkout codigo
@@ -211,6 +210,6 @@ jobs:
           echo 'Dependencias: ${{ needs.sca.result }}'
           echo 'Tests: ${{ needs.tests.result }}'
 
-    #aaaaa
+    
 
         
