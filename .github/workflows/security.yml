@@ -166,9 +166,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ sast, sca ]   # espera a que SAST y SCA terminen primero
     timeout-minutes: 10
-
     steps:
-      - name: Checkout del repositorio
+      - name: Checkout codigo
         uses: actions/checkout@v4
 
       - name: Configurar Python
@@ -191,9 +190,27 @@ jobs:
       # Pregunta: ¿qué pasa si un test falla? ¿Se bloquea el merge del PR?
       - name: Instalar dependencias
         run: |
-          # TODO: instala las dependencias del proyecto
-          # TODO: instala pytest
+          pip install -r Unidad_3_Seguridad_en_Aplicaciones_y_Datos/devsecops-lab/app/requirements.txt
+          pip install pytest
+        # TODO: instala las dependencias del proyecto
+        # TODO: instala pytest
 
       - name: Ejecutar tests
-        run: |
+        run: pytest Unidad_3_Seguridad_en_Aplicaciones_y_Datos/devsecops-lab/tests/ -v
           # TODO: ejecuta pytest sobre la carpeta tests/ del lab
+
+  pipeline-status:
+    name: 'Estado final del pipeline'
+    runs-on: ubuntu-latest
+    needs: [sast, sca, tests]
+    if: always()
+    steps:
+      - name: Resumen
+        run: |
+          echo 'SAST: ${{ needs.sast.result }}'
+          echo 'Dependencias: ${{ needs.sca.result }}'
+          echo 'Tests: ${{ needs.tests.result }}'
+
+    
+
+        
